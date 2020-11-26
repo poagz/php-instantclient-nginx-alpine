@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  php-oracle-app:
+    build: ./build
+    image: php-oracle-app:latest
+    container_name: php-oracle-app
+    ports:
+      - "127.0.0.1:8081:80"
+    networks:
+      - app-net
+networks:
+  app-net:
+    name: app-net
