@@ -2,6 +2,7 @@ FROM alpine:3.12
 LABEL Maintainer="Pouya Aghazadeh"\
       Description="PHP Oracle Instant Client App Container"
 ENV LD_LIBRARY_PATH /opt/oracle/instantclient_19_9/
+ENV ORACLE_HOME /opt/oracle/instantclient_19_9/
 
 COPY config/resolv.conf /etc/resolv.conf
 
@@ -27,14 +28,21 @@ COPY oracle/oci8-2.2.0.tgz /opt/oracle
 RUN cd /opt/oracle \
     && unzip instantclient-sdk-linux.x64-19.9.0.0.0dbru.zip \
     && unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip \
+    && unzip pdo_oci.zip \
     && tar xzf oci8-2.2.0.tgz \
-    && rm -rf instantclient-basic-linux.x64-19.9.0.0.0dbru.zip instantclient-sdk-linux.x64-19.9.0.0.0dbru.zip oci8-2.2.0.tgz \
+    && rm -rf instantclient-basic-linux.x64-19.9.0.0.0dbru.zip instantclient-sdk-linux.x64-19.9.0.0.0dbru.zip pdo_oci.zip oci8-2.2.0.tgz \
     && cd oci8-2.2.0 \
     && phpize \
     && ./configure --with-oci8=shared,instantclient,/opt/oracle/instantclient_19_9 \
     && make \
     && make install \
-    && echo "extension=oci8.so" >> /etc/php7/conf.d/oci8.ini
+    && echo "extension=oci8.so" >> /etc/php7/conf.d/oci8.ini \
+    && cd ../pdo_oci \
+    && phpize \
+    && ./configure --with-pdo-oci=instantclient,/opt/oracle/instantclient_19_9 \
+    && make \
+    && make install \
+    && echo "extension=pdo_oci8.so" >> /etc/php7/conf.d/pdo_oci8.ini
 
 
 RUN rm /etc/nginx/conf.d/default.conf
