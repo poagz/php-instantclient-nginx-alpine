@@ -1,7 +1,5 @@
 # php-instantclient-nginx-alpine
-PHP7 Container With PDO-OCI8, Nginx and Oracle Instant client 19 Based On Alpine Linux
-
-PHP7/NGINX container with pdo-oci and oci8 extensions that provided for connecting to the Oracle databases using Oracle Instant Client 19.9 and Alpine Linux Docker Image.
+PHP7-NGINX container with pdo-oci and oci8 extensions that provided for connecting to the Oracle databases using Oracle Instant Client 19.9 and Alpine Linux Docker Image.
 
 ## What You Can Do
 
