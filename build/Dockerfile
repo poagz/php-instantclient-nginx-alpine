@@ -22,6 +22,7 @@ RUN mkdir -p /opt/oracle
 COPY oracle/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip /opt/oracle
 COPY oracle/instantclient-sdk-linux.x64-19.9.0.0.0dbru.zip /opt/oracle
 COPY oracle/oci8-2.2.0.tgz /opt/oracle
+COPY oracle/pdo_oci.zip /opt/oracle
 
 
 
@@ -42,7 +43,8 @@ RUN cd /opt/oracle \
     && ./configure --with-pdo-oci=instantclient,/opt/oracle/instantclient_19_9 \
     && make \
     && make install \
-    && echo "extension=pdo_oci8.so" >> /etc/php7/conf.d/pdo_oci8.ini
+    && echo "extension=pdo_oci8.so" >> /etc/php7/conf.d/pdo_oci8.ini \
+    && ln -s /usr/lib/php7/modules/pdo_oci.so /usr/lib/php7/modules/pdo_oci8.so
 
 
 RUN rm /etc/nginx/conf.d/default.conf
